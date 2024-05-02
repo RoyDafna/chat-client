@@ -4,18 +4,20 @@ import { Input } from "@rneui/themed";
 import { useEffect, useState } from "react";
 import LetterAvatar from "../components/LetterAvatar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getSetUser } from "../utils/UserContext";
 
 export default function LoginScreen({ navigation }) {
   [username, setUsername] = useState("");
+
+  const setUser = getSetUser();
 
   useEffect(() => {
     const getUsername = async () => {
       const value = await AsyncStorage.getItem("username");
 
       if (value != null) {
-        navigation.navigate("Chat", {
-          username: value,
-        });
+        setUser(value);
+        navigation.navigate("Chat");
       }
     };
     getUsername();
@@ -38,11 +40,10 @@ export default function LoginScreen({ navigation }) {
       />
       <Button
         title="Enter Chat"
-        onPress={() => {
-          AsyncStorage.setItem("username", username);
-          navigation.navigate("Chat", {
-            username,
-          });
+        onPress={async () => {
+          await AsyncStorage.setItem("username", username);
+          setUser(value);
+          navigation.navigate("Chat");
         }}
       />
     </View>

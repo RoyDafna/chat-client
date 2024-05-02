@@ -1,6 +1,5 @@
 import LetterAvatar from "./LetterAvatar";
-import { Text, color } from "@rneui/base";
-import { ListItem } from "@rneui/base";
+import { Text } from "@rneui/base";
 import socket from "../utils/socket";
 
 export default function User({ username, socketID }) {
